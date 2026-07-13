@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:movie_ticket_booking;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+  main:
+    allow-bean-definition-overriding: true
+
+app:
+  security:
+    jwt:
+      issuer: movie-ticket-booking-test
+      secret: test-secret-key-for-jwt-signing-that-is-long-enough-256
+      access-token-expiration-minutes: 60
+  seat-hold:
+    expiration-minutes: 5
+    expiration-scheduler-cron: "0 * * * * *"
+  async:
+    core-pool-size: 1
+    max-pool-size: 2
+    queue-capacity: 10

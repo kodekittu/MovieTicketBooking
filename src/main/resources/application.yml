@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: movie-ticket-booking
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/movieTicketDb}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1234}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update #validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: UTC
+
+app:
+  security:
+    jwt:
+      issuer: movie-ticket-booking
+      secret: ${JWT_SECRET:change-this-development-secret-to-at-least-256-bits}
+      access-token-expiration-minutes: ${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES:60}
+  seat-hold:
+    expiration-minutes: 5
+    expiration-scheduler-cron: "0 * * * * *"
+  async:
+    core-pool-size: 4
+    max-pool-size: 12
+    queue-capacity: 100
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+
+spring doc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.springframework.security: INFO
+
+ai:
+  enabled: true
+
+  gemini:
+    api-key: ${GEMINI_API_KEY}
+    base-url: https://generativelanguage.googleapis.com
+    model: gemini-2.5-flash
+    embedding-model: text-embedding-004
+
+    timeout-seconds: 30
+
+  pinecone:
+    index-name: moviesystem
+    api-key: ${PINECONE_API_KEY}
+    host: ${PINECONE_HOST}
+    namespace: ${PINECONE_NAMESPACE:movies}
+
+  recommendation:
+    similarity-top-k: 5
+
+    cache-minutes: 30
