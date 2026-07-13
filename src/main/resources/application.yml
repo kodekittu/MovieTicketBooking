@@ -39,7 +39,7 @@ app:
     core-pool-size: 4
     max-pool-size: 12
     queue-capacity: 100
-  seed-data: true
+  seed-data: false
 
 server:
   port: ${SERVER_PORT:8080}
