@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import jakarta.persistence.LockModeType;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,13 +20,23 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
     Optional<Booking> findByBookingReference(String bookingReference);
 
-    java.util.List<Booking> findBySeatHoldId(UUID seatHoldId);
+    List<Booking> findBySeatHoldId(UUID seatHoldId);
+
+    List<Booking> findByUserId(UUID userId);
 
     Page<Booking> findByUserId(UUID userId, Pageable pageable);
 
-    Page<Booking> findByUserIdAndStatus(UUID userId, BookingStatus status, Pageable pageable);
+    Page<Booking> findByUserIdAndStatus(UUID userId,
+                                        BookingStatus status,
+                                        Pageable pageable);
 
-    @EntityGraph(attributePaths = {"user", "show", "show.movie", "show.screen", "show.screen.theater"})
+    @EntityGraph(attributePaths = {
+            "user",
+            "show",
+            "show.movie",
+            "show.screen",
+            "show.screen.theater"
+    })
     Optional<Booking> findWithDetailsById(UUID id);
 
     @Lock(LockModeType.OPTIMISTIC)
