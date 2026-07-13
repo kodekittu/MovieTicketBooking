@@ -64,8 +64,8 @@ ai:
   gemini:
     api-key: ${GEMINI_API_KEY}
     base-url: https://generativelanguage.googleapis.com
-    model: gemini-2.5-flash
-    embedding-model: text-embedding-004
+    model: gemini-flash-lite-latest
+    embedding-model: gemini-embedding-001
 
     timeout-seconds: 30
 
